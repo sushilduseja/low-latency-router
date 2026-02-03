@@ -10,6 +10,10 @@ This project demonstrates the impact of zeroGC techniques on a realistic trading
 - **Simple implementation**: Minimal logging dependencies (SLF4J + Logback)
 - **HTML report**: Visual comparison in `build/reports/benchmark.html`
 
+## Sample Report
+
+![Benchmark Report](docs/benchmark-report.png)
+
 ## About the "ZeroGC" Mode
 
 The term "ZeroGC" in this project is used to illustrate object pooling and reuse concepts, but is not truly "zero garbage collection" in the strict sense. In production trading systems, true zero-GC approaches typically involve:
