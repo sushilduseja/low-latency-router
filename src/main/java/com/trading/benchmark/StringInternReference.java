@@ -10,8 +10,8 @@ import java.util.Map;
  * Demonstrates String interning as a zero-GC technique to avoid duplicate strings.
  * This is useful in FIX protocol where many field values repeat frequently.
  */
-public class StringInternDemo {
-    private static final Logger LOG = LoggerFactory.getLogger(StringInternDemo.class);
+public class StringInternReference {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StringInternReference.class);
     
     private final Map<String, String> stringPool = new HashMap<>();
     
@@ -20,7 +20,9 @@ public class StringInternDemo {
      * or add the new string to the pool
      */
     public String intern(String str) {
-        if (str == null) return null;
+        if (str == null) {
+            return null;
+        }
         
         String existing = stringPool.get(str);
         if (existing != null) {
@@ -37,7 +39,7 @@ public class StringInternDemo {
     }
     
     public static void main(String[] args) {
-        StringInternDemo demo = new StringInternDemo();
+        StringInternReference internRef = new StringInternReference();
         
         // Simulate processing FIX messages with repeating values
         String[] symbols = {"AAPL", "MSFT", "GOOGL", "AMZN"};
@@ -49,21 +51,21 @@ public class StringInternDemo {
         // Process 1000 orders with repeating values
         for (int i = 0; i < 1000; i++) {
             String symbol = symbols[i % symbols.length];
-            String internedSymbol = demo.intern(symbol);
+            String internedSymbol = internRef.intern(symbol);
             
             String client = clients[i % clients.length];
-            String internedClient = demo.intern(client);
+            String internedClient = internRef.intern(client);
             
             // Unique order ID for each order
             String orderId = "ORDER-" + i;
-            String internedOrderId = demo.intern(orderId);
+            String internedOrderId = internRef.intern(orderId);
             
             totalStrings += 3;  // We processed 3 strings
-            uniqueStrings = demo.getPoolSize();
+            uniqueStrings = internRef.getPoolSize();
         }
         
-        LOG.info("Total strings processed: {}", totalStrings);
-        LOG.info("Unique strings in pool: {}", uniqueStrings);
-        LOG.info("Memory saving: {} strings", totalStrings - uniqueStrings);
+        LOGGER.info("Total strings processed: {}", totalStrings);
+        LOGGER.info("Unique strings in pool: {}", uniqueStrings);
+        LOGGER.info("Memory saving: {} strings", totalStrings - uniqueStrings);
     }
 }

@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
  * This is useful in trading systems where you frequently need to convert
  * numeric values to strings for FIX messages without creating garbage.
  */
-public class FastIntToStringDemo {
-    private static final Logger LOG = LoggerFactory.getLogger(FastIntToStringDemo.class);
+public class FastIntToStringReference {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FastIntToStringReference.class);
     
     // Pre-allocated buffer for conversions
     private final char[] buffer;
     
-    public FastIntToStringDemo(int maxDigits) {
+    public FastIntToStringReference(int maxDigits) {
         this.buffer = new char[maxDigits];
     }
     
@@ -71,27 +71,27 @@ public class FastIntToStringDemo {
     }
     
     public static void main(String[] args) {
-        FastIntToStringDemo demo = new FastIntToStringDemo(10);
+        FastIntToStringReference converter = new FastIntToStringReference(10);
         
         // Test some conversions
-        LOG.info("Converting integers to strings without allocations");
+        LOGGER.info("Converting integers to strings without allocations");
         
         int[] testValues = {0, 42, 12345, -789, Integer.MAX_VALUE, Integer.MIN_VALUE};
         for (int value : testValues) {
-            char[] chars = demo.intToChars(value);
+            char[] chars = converter.intToChars(value);
             String str = new String(chars);
-            LOG.info("{} -> {}", value, str);
+            LOGGER.info("{} -> {}", value, str);
             
             // Verify against standard conversion
             if (!str.equals(Integer.toString(value))) {
-                LOG.error("Conversion mismatch for {}", value);
+                LOGGER.error("Conversion mismatch for {}", value);
             }
         }
         
-        LOG.info("Fast int-to-string conversion completed");
-        LOG.info("In a real low latency system, you would:");
-        LOG.info("1. Use thread-local buffers to avoid thread contention");
-        LOG.info("2. Possibly use specialized number formatting for fixed formats (e.g., prices)");
-        LOG.info("3. Consider binary protocols instead of string-based ones when possible");
+        LOGGER.info("Fast int-to-string conversion completed");
+        LOGGER.info("In a real low latency system, you would:");
+        LOGGER.info("1. Use thread-local buffers to avoid thread contention");
+        LOGGER.info("2. Use specialized number formatting for fixed formats (e.g., prices)");
+        LOGGER.info("3. Prefer binary protocols over string-based ones when possible");
     }
 }

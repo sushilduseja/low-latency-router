@@ -1,22 +1,22 @@
 @echo off
 echo Building Low Latency Trading Router Demo...
 
-rem Create build directory
-mkdir build\classes 2>nul
-
-rem Compile main class
-echo Compiling source files...
-javac -d build\classes src\main\java\com\trading\SimpleMain.java
-
-rem Create JAR file
-echo Creating JAR file...
-jar cfe build\trading-router-demo.jar com.trading.SimpleMain -C build\classes .
+if exist gradle\wrapper\gradle-wrapper.jar (
+  call gradlew -q clean fatJar
+) else (
+  gradle -q clean fatJar
+  if errorlevel 1 (
+    echo Gradle wrapper not found and Gradle is not installed.
+    echo Please install Gradle or restore gradle\wrapper\gradle-wrapper.jar.
+    exit /b 1
+  )
+)
 
 echo Build complete!
 echo.
 echo To run in standard mode:
-echo   java -jar build\trading-router-demo.jar standard
+echo   java -jar build\libs\low-latency-router-1.0-SNAPSHOT-all.jar standard
 echo.
 echo To run in zeroGC mode:
 echo   java -XX:+UseZGC -XX:+AlwaysPreTouch -XX:+DisableExplicitGC ^
-echo        -jar build\trading-router-demo.jar zerogc
+echo        -jar build\libs\low-latency-router-1.0-SNAPSHOT-all.jar zerogc
