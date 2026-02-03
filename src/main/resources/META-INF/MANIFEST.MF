@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: com.trading.SimpleMain
-Implementation-Title: Low Latency Trading Router Demo
-Implementation-Version: 1.0

@@ -12,16 +12,16 @@ import java.util.concurrent.TimeUnit;
  * Note: This is using comments instead of actual thread affinity since that requires
  * platform-specific JNI libraries like OpenHFT's Java-Thread-Affinity.
  */
-public class ThreadAffinityDemo {
-    private static final Logger LOG = LoggerFactory.getLogger(ThreadAffinityDemo.class);
+public class ThreadAffinityReference {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ThreadAffinityReference.class);
     
     public static void main(String[] args) throws InterruptedException {
-        LOG.info("Thread affinity demonstration");
-        LOG.info("Note: In a real implementation, you would use a library like OpenHFT's Java-Thread-Affinity");
+        LOGGER.info("Thread affinity demonstration");
+        LOGGER.info("Note: Use a library like OpenHFT Java-Thread-Affinity for real pinning");
         
-        ExecutorService executor = Executors.newFixedThreadPool(3, r -> {
-            Thread t = new Thread(r);
-            t.setName("LatencySensitiveThread");
+        ExecutorService threadPool = Executors.newFixedThreadPool(3, task -> {
+            Thread thread = new Thread(task);
+            thread.setName("latency-sensitive");
             
             // In a real implementation with thread affinity, you would do something like:
             // AffinityLock.acquireLock();
@@ -29,16 +29,16 @@ public class ThreadAffinityDemo {
             // AffinityLock.acquireLock(1); // Pin to CPU core 1
             
             // We can also manually set thread priorities
-            t.setPriority(Thread.MAX_PRIORITY);
+            thread.setPriority(Thread.MAX_PRIORITY);
             
-            return t;
+            return thread;
         });
         
         // Run some dummy tasks
         for (int i = 0; i < 5; i++) {
-            final int taskId = i;
-            executor.submit(() -> {
-                LOG.info("Task {} running on thread {} with priority {}", 
+            int taskId = i;
+            threadPool.submit(() -> {
+                LOGGER.info("Task {} running on thread {} with priority {}",
                         taskId, Thread.currentThread().getName(), Thread.currentThread().getPriority());
                 
                 // Simulate some work
@@ -48,19 +48,19 @@ public class ThreadAffinityDemo {
                     Thread.currentThread().interrupt();
                 }
                 
-                LOG.info("Task {} completed", taskId);
+                LOGGER.info("Task {} completed", taskId);
                 return null;
             });
         }
         
-        executor.shutdown();
-        executor.awaitTermination(5, TimeUnit.SECONDS);
+        threadPool.shutdown();
+        threadPool.awaitTermination(5, TimeUnit.SECONDS);
         
-        LOG.info("Thread affinity demonstration completed");
-        LOG.info("In real low latency systems, you would:");
-        LOG.info("1. Pin critical threads to specific CPU cores");
-        LOG.info("2. Isolate those cores from OS scheduling");
-        LOG.info("3. Disable power management and CPU frequency scaling");
-        LOG.info("4. Use real-time priority scheduling when available");
+        LOGGER.info("Thread affinity demonstration completed");
+        LOGGER.info("In real low latency systems, you would:");
+        LOGGER.info("1. Pin critical threads to specific CPU cores");
+        LOGGER.info("2. Isolate those cores from OS scheduling");
+        LOGGER.info("3. Disable power management and CPU frequency scaling");
+        LOGGER.info("4. Use real-time priority scheduling when available");
     }
 }

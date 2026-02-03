@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
  * Demonstrates using Java 21 features like record classes
  * to create more efficient immutable data objects.
  */
-public class ValueClassDemo {
-    private static final Logger LOG = LoggerFactory.getLogger(ValueClassDemo.class);
+public class ValueClassReference {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ValueClassReference.class);
     
     // Record class for price levels in an order book
     public record PriceLevel(double price, int quantity) {
@@ -24,7 +24,7 @@ public class ValueClassDemo {
     }
     
     public static void main(String[] args) {
-        LOG.info("Demonstrating Java 21 records for efficient value objects");
+        LOGGER.info("Demonstrating Java 21 records for efficient value objects");
         
         // Create some price levels
         PriceLevel[] bids = {
@@ -42,16 +42,16 @@ public class ValueClassDemo {
         // Create a market data update
         MarketDataUpdate update = new MarketDataUpdate("AAPL", System.nanoTime(), bids, asks);
         
-        LOG.info("Market data update: {}", update);
-        LOG.info("Best bid: {}", update.bids()[0]);
-        LOG.info("Best ask: {}", update.asks()[0]);
-        LOG.info("Spread: {}", update.asks()[0].price() - update.bids()[0].price());
-        
-        LOG.info("Value class demo completed");
-        LOG.info("Benefits in low latency trading:");
-        LOG.info("1. Compact object representation");
-        LOG.info("2. Immutability ensures thread safety without locks");
-        LOG.info("3. Efficient garbage collection with generational hypotheses");
-        LOG.info("4. Clear semantics with built-in equals/hashCode");
+        LOGGER.info("Market data update: {}", update);
+        LOGGER.info("Best bid: {}", update.bids()[0]);
+        LOGGER.info("Best ask: {}", update.asks()[0]);
+        LOGGER.info("Spread: {}", update.asks()[0].price() - update.bids()[0].price());
+
+        LOGGER.info("Value class reference completed");
+        LOGGER.info("Benefits in low latency trading:");
+        LOGGER.info("1. Compact object representation");
+        LOGGER.info("2. Immutability ensures thread safety without locks");
+        LOGGER.info("3. Efficient garbage collection with generational hypotheses");
+        LOGGER.info("4. Clear semantics with built-in equals/hashCode");
     }
 }

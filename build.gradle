@@ -5,37 +5,27 @@ plugins {
 
 group = 'com.trading'
 version = '1.0-SNAPSHOT'
-sourceCompatibility = 21
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    // NOTE: These dependencies are not needed for SimpleMain
-    // They are kept for educational purposes and future expansion
-    
-    // LMAX Disruptor - Used in the original implementation for high throughput
-    compileOnly 'com.lmax:disruptor:3.4.4'
-    
-    // QuickFIX/J - Used in the original implementation for FIX protocol
-    compileOnly 'org.quickfixj:quickfixj-core:2.3.1'
-    compileOnly 'org.quickfixj:quickfixj-messages-fix44:2.3.1'
-    
-    // HdrHistogram - Used in the original implementation for latency recording
-    compileOnly 'org.hdrhistogram:HdrHistogram:2.1.12'
-    
-    // SLF4J and Logback - Used in the benchmark examples for logging
-    compileOnly 'org.slf4j:slf4j-api:2.0.7'
-    compileOnly 'ch.qos.logback:logback-classic:1.4.11'
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.4.11'
     
     // JUnit for testing
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
 }
 
 application {
-    // Now using SimpleMain as the entry point
-    mainClass = 'com.trading.SimpleMain'
+    mainClass = 'com.trading.TradingRouterBenchmarkApp'
 }
 
 tasks.withType(JavaCompile) {
@@ -48,7 +38,7 @@ test {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.trading.SimpleMain'
+        attributes 'Main-Class': 'com.trading.TradingRouterBenchmarkApp'
     }
 }
 
@@ -58,7 +48,7 @@ task fatJar(type: Jar) {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     
     manifest {
-        attributes 'Main-Class': 'com.trading.SimpleMain'
+        attributes 'Main-Class': 'com.trading.TradingRouterBenchmarkApp'
     }
     
     from { 
