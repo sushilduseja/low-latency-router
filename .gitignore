@@ -29,3 +29,4 @@ ehthumbs.db
 *.class
 *.log
 hs_err_pid*
+bin/

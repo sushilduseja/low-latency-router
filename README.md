@@ -1,6 +1,6 @@
 # Low Latency Trading Router Benchmark
 
-This project demonstrates the impact of zeroGC techniques on a realistic trading system built with Java 21.
+This project demonstrates the impact of zeroGC techniques on a realistic trading workflow built with Java 21.
 
 ## Key Features
 
@@ -8,6 +8,7 @@ This project demonstrates the impact of zeroGC techniques on a realistic trading
 - **Zero GC mode**: Object reuse, pooling and ZGC optimization
 - **Benchmark**: Side-by-side comparison of standard vs. zero GC approaches
 - **Simple implementation**: Minimal logging dependencies (SLF4J + Logback)
+- **HTML report**: Visual comparison in `build/reports/benchmark.html`
 
 ## About the "ZeroGC" Mode
 
@@ -24,12 +25,10 @@ This simplified example focuses on the basic techniques of object pooling and re
 
 This project is designed to be simple and self-contained:
 
-- **TradingRouterBenchmarkApp**: The entry point for the benchmark
+- **TradingRouterBenchmarkApp**: CLI entry point
+- **BenchmarkRunner**: Orchestrates runs, summaries, and report generation
+- **HtmlReportBuilder**: Generates the HTML comparison report
 - **Benchmark package**: Contains additional zero-GC technique examples (for educational purposes)
-
-> **Note:** The original version of this project included a `Main` class that used LMAX Disruptor,
-> QuickFIX/J, and other external libraries to demonstrate these techniques in a more realistic
-> trading environment. The current version uses `TradingRouterBenchmarkApp` for clarity and ease of use.
 
 ## Educational Resources
 
@@ -56,6 +55,13 @@ These classes are not required to run TradingRouterBenchmarkApp but provide valu
 
 1. Clone the repository
 2. Make the run script executable: `chmod +x run.sh`
-3. Run `./run.sh standard` to test standard GC mode
-4. Run `./run.sh zerogc` to test zeroGC mode
-5. Compare the benchmark results
+3. Run `./run.sh` to execute both modes sequentially and generate the HTML report
+4. Open `build/reports/benchmark.html`
+
+## Future Enhancements (Placeholder)
+
+Planned integrations for advanced low-latency paths:
+
+- **disruptor/**: Add ring-buffer based pipeline with publish/subscribe sequencing
+- **fix/**: Add FIX protocol encoding/decoding with deterministic allocation behavior
+- **gc/**: Add GC strategy harness with configurable tuning profiles and pause capture

@@ -3,6 +3,7 @@ echo Building Low Latency Trading Router Demo...
 
 if exist gradle\wrapper\gradle-wrapper.jar (
   call gradlew -q clean fatJar
+  if errorlevel 1 exit /b 1
 ) else (
   gradle -q clean fatJar
   if errorlevel 1 (
